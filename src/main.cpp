@@ -1,5 +1,5 @@
 #include "main.h"
-#include "XboxController/XboxController.hpp"
+#include "VexboxController/VexboxController.hpp"
 #include "pros/apix.h"
 #include "pros/misc.h"
 #include "pros/screen.h"
