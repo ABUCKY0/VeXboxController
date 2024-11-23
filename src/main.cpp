@@ -1,6 +1,8 @@
 #include "main.h"
-#include "pros/apix.h"
 #include "XboxController/XboxController.hpp"
+#include "pros/apix.h"
+#include "pros/misc.h"
+#include "pros/screen.h"
 #include <cstdio>
 #include <fstream>
 #include <string>
@@ -12,9 +14,9 @@
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+
   // disable COBS
   pros::c::serctl(SERCTL_DISABLE_COBS, NULL);
-  pros::lcd::initialize();
 }
 
 /**
@@ -26,7 +28,7 @@ void disabled() {}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
+ * Management System or the VEX Competition Switch. This is boolended for
  * competition-specific initialization routines, such as an autonomous selector
  * on the LCD.
  *
@@ -63,21 +65,54 @@ void autonomous() {}
  */
 
 void opcontrol() {
-	XboxController controller(pros::E_CONTROLLER_MASTER);
-	pros::Motor left_mtr(1);
+  XboxController controller(pros::E_CONTROLLER_MASTER);
+  pros::Motor left_mtr(1);
   while (true) {
-    // Print the serial input as it comes in as a string
-    // std::string input;
-    // if (std::getline(std::cin, input)) {
-    //   pros::lcd::print(0, input.c_str());
-    // } else {
-    //   pros::lcd::print(0, "End of input or read error");
-    // }
-		//std::cout << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) << std::endl;
-		left_mtr.move(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+    // std::cout << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) <<
+    // std::endl;
+    // left_mtr.move(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      left_mtr.move(127);
+    } else {
+      left_mtr.move(0);
+    }
 
-    //std::cout << input.c_str()<< std::endl;
-    pros::delay(20); // Run for 20 ms then update
+    pros::screen::print(pros::E_TEXT_SMALL, 0, "LB: %d   RB: %d                            ",
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2),
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
+    pros::screen::print(pros::E_TEXT_SMALL, 1, "LB: %d   RB: %d                              ",
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_L1),
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_R1));
+    pros::screen::print(
+        pros::E_TEXT_SMALL, 3, "LX: %D   LY: %D                                  ",
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X),
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
+    pros::screen::print(
+        pros::E_TEXT_SMALL, 4, "RX: %d   RY: %d                               ",
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X),
+        controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y));
+    pros::screen::print(pros::E_TEXT_SMALL, 6, "A: %d   B: %d                                       ",
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_A),
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_B));
+    pros::screen::print(pros::E_TEXT_SMALL, 7, "X: %d   Y: %d                                 ",
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_X),
+                        controller.get_digital(pros::E_CONTROLLER_DIGITAL_Y));
 
+    pros::screen::print(
+        pros::E_TEXT_SMALL, 9, "DPU: %d   DPD: %d                                 ",
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_UP),
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN));
+    pros::screen::print(
+        pros::E_TEXT_SMALL, 10, "DPL: %d   DPR: %d                                          ",
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT),
+        controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT));
+
+    std::cout << "LX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)
+							<< " LY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)
+							<< " RX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)
+							<< " RY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)
+							<< std::endl;
+
+    pros::delay(20); 
   }
 }

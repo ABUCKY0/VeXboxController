@@ -27,19 +27,15 @@ void XboxController::update_controller() {
       std::string type = input.substr(4, input.find("_") - 4);
       std::string id = input.substr(input.find("_") + 1, input.find("$$") - input.find("_") - 1);
       std::string value = input.substr(input.find("$$") + 2);
-      // std::cout << "Type: " << type << " ID: " << id << " Value: " << value
-      //           << std::endl;
       if (type == "axis") {
         if (id == "0") {
           double lefthraw = std::stod(value); // -1 to 1
-          std::cout << value;
+          
           // Convert to -127 to 127
           leftHorizontal = std::clamp((lefthraw * 127.0), -127.0, 127.0);
         }
         else if (id == "1") {
           double leftvraw = std::stod(value); // -1 to 1
-          std::cout << leftvraw;
-
           // Convert to -127 to 127
           leftVertical = std::clamp((leftvraw * 127.0), -127.0, 127.0);
         }
@@ -54,10 +50,13 @@ void XboxController::update_controller() {
           rightVertical = std::clamp((rightvraw * 127.0), -127.0, 127.0);
           
         }
-        else if (id == "4") 
-          leftTrigger = std::stod(value) > 0.1 ? 1 : 0;
-        else if (id == "5")
-          rightTrigger = std::stod(value) > 0.1 ? 1 : 0;
+        else if (id == "4") {
+          leftTrigger = std::stod(value) > 0.0 ? 1 : 0;
+
+        }
+        else if (id == "5")  {
+          rightTrigger = std::stod(value) > 0.0 ? 1 : 0;
+        }
       } else if (type == "button") {
         int pressed = std::stoi(value);
         if (id == "0") {
@@ -103,13 +102,41 @@ void XboxController::update_controller() {
         }
       } else if (type == "dpad") {
         std::string hdapd = value.substr(1, value.find(",") - 1);
-        std::string vdpad = value.substr(value.find(",") + 2, value.size() - 3);
-        HDAPD = std::stoi(hdapd);
-        VDPAD = std::stoi(vdpad);
-        if (HDAPD)
-          DPR_new = 1;
-        if (VDPAD)
-          DPU_new = 1;
+        std::string vdpad = value.substr(value.find(",") + 2, value.size() - 5);
+        if (hdapd == "1") {
+          DPL = 1;
+          if (DPL)
+            DPL_new = 1;
+        } 
+        if (hdapd == "-1") {
+          DPR = 1;
+          if (DPR)
+            DPR_new = 1;
+        }
+         if (hdapd == "0") {
+          DPL = 0;
+          DPR = 0;
+          DPL_new = 0;
+          DPR_new = 0;
+        }
+
+        if (vdpad == "1") {
+          DPU = 1;
+          if (DPU)
+            DPU_new = 1;
+        }
+        if (vdpad == "-1") {
+          DPD = 1;
+          if (DPD)
+            DPD_new = 1;
+        }
+        if (vdpad == "0") {
+          DPU = 0;
+          DPD = 0;
+          DPU_new = 0;
+          DPD_new = 0;
+        }
+      
       }
     }
 
@@ -132,14 +159,18 @@ std::int32_t XboxController::get_digital(pros::controller_digital_e_t button) {
     return LB;
   case DIGITAL_R1:
     return RB;
+  case DIGITAL_L2:
+    return leftTrigger;
+  case DIGITAL_R2:
+    return rightTrigger;
   case DIGITAL_LEFT:
-    return VIEW;
+    return DPL;
   case DIGITAL_RIGHT:
-    return MENU;
+    return DPR;
   case DIGITAL_DOWN:
-    return LSB;
+    return DPD;
   case DIGITAL_UP:
-    return RSB;
+    return DPU;
   default:
     return 0;
   }
