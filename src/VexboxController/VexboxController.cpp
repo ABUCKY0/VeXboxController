@@ -1,18 +1,16 @@
-#ifndef XBOXCONTROLLER_HPP
-#define XBOXCONTROLLER_HPP
+#ifndef VEXBOXCONTROLLER_HPP
+#define VEXBOXCONTROLLER_HPP
 
-#include "XboxController/XboxController.hpp"
+#include "VexboxController/VexboxController.hpp"
 #include <algorithm>
 #include <iostream>
 #include <string>
 
-
-
-XboxController::XboxController(pros::controller_id_e_t id)
+VexboxController::VexboxController(pros::controller_id_e_t id)
     : pros::Controller(id),
       controllerTask([this]() { this->update_controller(); }) {}
 
-void XboxController::update_controller() {
+void VexboxController::update_controller() {
   while (true) {
     std::string input;
     std::getline(std::cin, input); // Use getline to read the entire line
@@ -143,9 +141,9 @@ void XboxController::update_controller() {
   }
 }
 
-std::int32_t XboxController::is_connected(void) { return true; }
+std::int32_t VexboxController::is_connected(void) { return true; }
 
-std::int32_t XboxController::get_digital(pros::controller_digital_e_t button) {
+std::int32_t VexboxController::get_digital(pros::controller_digital_e_t button) {
   switch (button) {
   case DIGITAL_A:
     return A;
@@ -176,7 +174,7 @@ std::int32_t XboxController::get_digital(pros::controller_digital_e_t button) {
   }
 }
 
-std::int32_t XboxController::get_analog(pros::controller_analog_e_t channel) {
+std::int32_t VexboxController::get_analog(pros::controller_analog_e_t channel) {
   switch (channel) {
   case ANALOG_LEFT_X:
     return leftHorizontal;
@@ -192,7 +190,7 @@ std::int32_t XboxController::get_analog(pros::controller_analog_e_t channel) {
 }
 
 std::int32_t
-XboxController::get_digital_new_press(pros::controller_digital_e_t button) {
+VexboxController::get_digital_new_press(pros::controller_digital_e_t button) {
   int temp = 0;
   switch (button) {
   case DIGITAL_A:
@@ -241,24 +239,24 @@ XboxController::get_digital_new_press(pros::controller_digital_e_t button) {
   return temp;
 }
 
-std::int32_t XboxController::get_battery_capacity(void) { return 0; }
-std::int32_t XboxController::get_battery_level(void) { return 0; }
+std::int32_t VexboxController::get_battery_capacity(void) { return 0; }
+std::int32_t VexboxController::get_battery_level(void) { return 0; }
 
 template <typename... Parameters>
-std::int32_t XboxController::print(int line, int col, const char *fmt,
+std::int32_t VexboxController::print(int line, int col, const char *fmt,
                                    Parameters... parameters) {
   return 1;
 }
 
-std::int32_t XboxController::set_text(int line, int col, const char *str) {
+std::int32_t VexboxController::set_text(int line, int col, const char *str) {
   return 1;
 }
-std::int32_t XboxController::set_text(int line, int col,
+std::int32_t VexboxController::set_text(int line, int col,
                                       const std::string &str) {
   return 1;
 }
-std::int32_t XboxController::clear_line(std::uint8_t line) { return 1; }
-std::int32_t XboxController::clear(void) { return 1; }
-std::int32_t XboxController::rumble(const char *rumble_pattern) { return 1; }
+std::int32_t VexboxController::clear_line(std::uint8_t line) { return 1; }
+std::int32_t VexboxController::clear(void) { return 1; }
+std::int32_t VexboxController::rumble(const char *rumble_pattern) { return 1; }
 
 #endif

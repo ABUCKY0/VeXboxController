@@ -65,7 +65,7 @@ void autonomous() {}
  */
 
 void opcontrol() {
-  XboxController controller(pros::E_CONTROLLER_MASTER);
+  VexboxController controller(pros::E_CONTROLLER_MASTER);
   pros::Motor left_mtr(1);
   while (true) {
     // std::cout << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) <<

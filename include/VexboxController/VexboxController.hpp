@@ -6,9 +6,9 @@
 #include <cstdint>
 #include <string>
 
-class XboxController : public pros::Controller {
+class VexboxController : public pros::Controller {
 public:
-  explicit XboxController(pros::controller_id_e_t id);
+  explicit VexboxController(pros::controller_id_e_t id);
 
   std::int32_t is_connected(void);
   std::int32_t get_digital(pros::controller_digital_e_t button);
