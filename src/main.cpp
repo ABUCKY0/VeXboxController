@@ -66,16 +66,10 @@ void autonomous() {}
 
 void opcontrol() {
   VexboxController controller(pros::E_CONTROLLER_MASTER);
-  pros::Motor left_mtr(1);
   while (true) {
     // std::cout << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y) <<
     // std::endl;
     // left_mtr.move(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
-    if (controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-      left_mtr.move(127);
-    } else {
-      left_mtr.move(0);
-    }
 
     pros::screen::print(pros::E_TEXT_SMALL, 0, "LB: %d   RB: %d                            ",
                         controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2),

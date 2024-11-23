@@ -6,9 +6,11 @@
 #include <iostream>
 #include <string>
 
+
 VexboxController::VexboxController(pros::controller_id_e_t id)
     : pros::Controller(id),
-      controllerTask([this]() { this->update_controller(); }) {}
+      controllerTask([this]() { this->update_controller(); },
+                     "VexboxController") {}
 
 void VexboxController::update_controller() {
   while (true) {
