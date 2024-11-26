@@ -71,7 +71,7 @@ void opcontrol() {
     // std::endl;
     // left_mtr.move(controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y));
 
-    pros::screen::print(pros::E_TEXT_SMALL, 0, "LB: %d   RB: %d                            ",
+    pros::screen::print(pros::E_TEXT_SMALL, 0, "LT: %d   RT: %d                            ",
                         controller.get_digital(pros::E_CONTROLLER_DIGITAL_L2),
                         controller.get_digital(pros::E_CONTROLLER_DIGITAL_R2));
     pros::screen::print(pros::E_TEXT_SMALL, 1, "LB: %d   RB: %d                              ",
@@ -101,11 +101,11 @@ void opcontrol() {
         controller.get_digital(pros::E_CONTROLLER_DIGITAL_LEFT),
         controller.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT));
 
-    std::cout << "LX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)
-							<< " LY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)
-							<< " RX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)
-							<< " RY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)
-							<< std::endl;
+    // std::cout << "LX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_X)
+		// 					<< " LY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_LEFT_Y)
+		// 					<< " RX: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_X)
+		// 					<< " RY: " << controller.get_analog(pros::E_CONTROLLER_ANALOG_RIGHT_Y)
+		// 					<< std::endl;
 
     pros::delay(20); 
   }
